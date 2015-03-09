@@ -1,0 +1,109 @@
+---
+layout: default
+title: Java循环
+comments: true
+---
+
+
+## 一个关于旅游票价的练习
+
+题目：旅行社团队票有优惠活动，限额10人团队（必须报满人数才有优惠活动，人数不满则团队比例优惠活动无效），如果团队中老年人比例占到50%团队票可以打5折，如果儿童比例达到20%可以打8折，如果老年人和儿童加起来比例不低于50%则可以打7折。海南游11-2月份打3折，三亚5，6，7和10月打5折，。
+通过键盘录入相关信息，按#退出录入，最终求该团队的旅行票价是多少(儿童年龄小于10岁，老年人年龄大于等于60，海南游票价2000，三亚票价1800)
+
+所去的地方，去的月份
+循环10次录入人员的年龄
+如果输入# break退出循环
+每次输入完年龄后都应判断年龄属于哪个年龄段，分别记录儿童和老年人的参加人数
+使用儿童和老年人的人数分别计算所占比例
+如果输入不满10个人则根据所去地方维持原票价
+（注释：多种打折方式,以 价格最低为优;同时可以享受折上折,比如,一个团队,既有老人,也有小孩,那么老人可以打折,小孩子也可以打折）
+	 
+```java
+        public static void main(String[] args) {
+              		Scanner input = new Scanner(System.in);
+              		String age = "";
+              		double price=0;
+              		int child=0, old=0, num=0;		
+              		System.out.print("所去的地方(1.海南  2.三亚)：");
+              		String place = input.next();
+              		System.out.print("所去的月份：");
+              		String month = input.next();
+              		System.out.println("分别输入团队人员的年龄：");
+              		do
+              		{			
+                  			age = input.next();
+                  			if(age.equals("#"))
+                  				break;
+                  			else
+                  			{
+                  				num++;
+                  				if(num==10)
+                  					break;
+                  				else if(Integer.parseInt(age)<10)
+                  				{
+                  					child++;
+                  				}
+                  				else if(Integer.parseInt(age)>60)
+                  				{
+                  					old++;
+                  				}
+                  			}
+              		}while(true);
+              		input.close();
+              		boolean flag = false;
+              		//选择地方，确定地方票价，以及是否在优惠月。
+              		if(place.equals("1") || place.equals("海南") || place.equals("1.海南"))
+              		{
+                  			place = "海南";
+                  			price = 2000;
+                  			if(num==10)
+                  			{
+                  				if(month.equals("11") || month.equals("12") || month.equals("1") || month.equals("2"))
+                  				{	
+                  					price = price*0.3;
+                  					flag = true;
+                  				}
+                  			}
+              		}
+              		else if(place.equals("2") || place.equals("三亚") || place.equals("1.三亚"))
+              		{
+                  			place = "三亚";
+                  			price = 1800;
+                  			if(num==10)
+                  			{
+                  				if(month.equals("5") || month.equals("6") || month.equals("7") || month.equals("10"))
+                  				{
+                  					price = price*0.5;
+                  					flag = true;
+                  				}
+                  			}
+              		}
+              		else
+              		{
+                  			System.out.println("输入的地方不符合要求。");
+                  			return;
+              		}
+              		//不在优惠月时团队的折扣
+              		if(num==10 && !flag)
+              		{
+                  			if(old>=5)
+                  			{
+                      				if(child>=2)
+                      					price *= 0.5*0.8;
+                      				else
+                      					price *= 0.5; 
+              			}
+              			else if(old+child>=5)
+              			{
+                  				price *= 0.7;
+              			}
+              			else if(child>2)
+              			{
+              				    price *= 0.8;
+              			}	
+              		}
+              		System.out.println(place+month+"月份"+num+"个人的团队，每个人的票价为"+price+"元。");
+	}
+```
+
+
